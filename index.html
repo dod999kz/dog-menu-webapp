@@ -2,50 +2,34 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Меню для щенка</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    input, button {
-      font-size: 16px;
-      margin: 10px 0;
-      padding: 10px;
-      width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Меню для щенка</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function sendData() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const weight = document.getElementById("weight").value;
+
+            const data = {
+                name: name,
+                age: age,
+                weight: weight
+            };
+
+            if (window.Telegram.WebApp) {
+                window.Telegram.WebApp.sendData(JSON.stringify(data));
+            } else {
+                alert("Telegram WebApp API недоступен");
+            }
+        }
+    </script>
 </head>
 <body>
-  <h2>🐶 Меню для щенка</h2>
-  <form id="menuForm">
-    <input type="text" id="name" placeholder="Имя щенка" required />
-    <input type="number" id="age" placeholder="Возраст (в месяцах)" min="1" required />
-    <input type="number" id="weight" placeholder="Вес (в кг)" step="0.1" min="0.1" required />
-    <button type="submit">📋 Рассчитать меню</button>
-  </form>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    document.getElementById("menuForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("name").value.trim();
-      const age = document.getElementById("age").value.trim();
-      const weight = document.getElementById("weight").value.trim();
-
-      const data = {
-        name,
-        age,
-        weight
-      };
-
-      tg.sendData(JSON.stringify(data));
-    });
-  </script>
+    <h2>Введите данные щенка</h2>
+    <input type="text" id="name" placeholder="Имя"><br><br>
+    <input type="number" id="age" placeholder="Возраст (мес)"><br><br>
+    <input type="number" id="weight" placeholder="Вес (кг)" step="0.1"><br><br>
+    <button onclick="sendData()">Рассчитать меню</button>
 </body>
 </html>
